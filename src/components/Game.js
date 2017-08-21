@@ -33,6 +33,11 @@ let possibleCombinationSum = function(arr, n) {
   return false
 }
 
+const formattedSeconds = (sec) =>
+Math.floor(sec / 60) +
+':' +
+('0' + sec % 60).slice(-2)
+
 class Game extends React.Component {
   static getRandomNumber = () => 1 + Math.floor(Math.random() * 9)
 
@@ -42,12 +47,33 @@ class Game extends React.Component {
       usedNumbers: [],
       answerIsCorrect: null,
       redraws: 5,
-      doneStatus: null
+      doneStatus: null,
+      secondsElapsed: 0,
+      lastClearedIncrementer: null
   })
   
   constructor (props) {
     super(props)
     this.state = Game.getInitialState()
+    this.incrementer = setInterval(() => {
+      this.setState({
+        secondsElapsed: this.state.secondsElapsed + 1
+      })
+    }, 1000)
+  }
+
+  stopTimer = () => {
+    clearInterval(this.incrementer);
+    this.setState({
+      lastClearedIncrementer: this.incrementer
+    })
+  }
+
+  handleReset () {
+    clearInterval(this.incrementer)
+    this.setState({
+      secondsElapsed: 0
+    })
   }
 
   selectNumber = (clickedNumber) => {
@@ -82,7 +108,14 @@ class Game extends React.Component {
     }), this.updateDoneStatus)
   }
 
-  resetGame = () => this.setState(Game.getInitialState())
+  resetGame = () => { 
+    this.setState(Game.getInitialState())
+    this.incrementer = setInterval(() => {
+      this.setState({
+        secondsElapsed: this.state.secondsElapsed + 1
+      })
+    }, 1000)
+  }
 
   redraw = () => {
     if (this.state.redraws === 0) {
@@ -105,9 +138,11 @@ class Game extends React.Component {
   updateDoneStatus = () => {
     this.setState(prevState => {
       if (prevState.usedNumbers.length === 9) {
-        return { doneStatus: 'Done, Nice!'}
+        this.stopTimer()
+        return { doneStatus: `Well Done, You finished the game with ${this.state.redraws} lives in ${this.state.secondsElapsed} seconds!`}
       }
       if (prevState.redraws === 0 && !this.possibleSolutions(prevState)) {
+        this.stopTimer()
         return { doneStatus: 'Game Over!'}
       }
     })
@@ -138,6 +173,9 @@ class Game extends React.Component {
         }
         <br/>
         <br/>
+        <div className="stopwatch">
+          <h1 className="stopwatch-timer">{formattedSeconds(this.state.secondsElapsed)}</h1>
+        </div>
         <GameRules />
       </div>
     )
@@ -145,3 +183,6 @@ class Game extends React.Component {
 }
 
 export default Game
+
+const Btn = (props) =>
+<button type="button" {...props} className={"btn " + props.className} />

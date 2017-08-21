@@ -16,7 +16,7 @@ const Numbers = (props) => {
     <div className='card text-center'>
       <div>
         {Numbers.list.map((number, i) =>
-          <span key={i} onClick={() => props.selectNumber(number)} className={numberClassName(number)}>
+          <span key={i} onClick={() => props.selectNumber(number)} className={numberClassName(number) + ' gameNumber'}>
             {number}
           </span>)}
       </div>

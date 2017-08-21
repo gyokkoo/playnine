@@ -1,9 +1,25 @@
-.fa-star {
-  margin: 0.5em;
-  font-size: 24px;
+.stopwatch { 
+  text-align: center 
 }
 
-span {
+.stopwatch-timer {
+  font-size: 40px;
+  font-weight: 100;
+  line-height: 120px;
+  
+  margin: 0;
+  
+  border: solid #cecfd0;
+  border-width: 1px 0;
+  background-color: white;
+}
+
+.em-yum {
+  margin: 0.5em;
+  font-size: 18px;
+}
+
+.gameNumber {
   display: inline-block;
   margin: 0.5em;
   text-align: center;
