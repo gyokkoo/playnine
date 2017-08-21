@@ -4,8 +4,9 @@ const Button = (props) => {
   let button
   switch (props.answerIsCorrect) {
     case true:
+      props.acceptAnswer()
       button =
-        <button className='btn btn-outline-success' onClick={props.acceptAnswer}>
+        <button className='btn btn-outline-success'>
           <i className='fa fa-check-square' />
         </button>
       break
