@@ -4,7 +4,6 @@ import Button from './Button'
 import Answer from './Answer'
 import Numbers from './Numbers'
 import DoneFrame from './DoneFrame'
-import GameRules from './GameRules'
 import _ from 'lodash'
 
 let possibleCombinationSum = function(arr, n) {
@@ -150,39 +149,40 @@ class Game extends React.Component {
 
   render () {
     const { selectedNumbers, numberOfStars, answerIsCorrect, usedNumbers, redraws, doneStatus } = this.state
-    return (
-      <div className='container'>
-        <h3 className='text-center'>Play Nine</h3>
-        <hr />
-        <div className='row'>
-          <Stars numberOfStars={numberOfStars} />
-          <Button selectedNumbers={selectedNumbers} 
-                  redraws={redraws}
-                  checkAnswer={this.checkAnswer}
-                  acceptAnswer={this.acceptAnswer}
-                  redraw={this.redraw}
-                  answerIsCorrect={answerIsCorrect} />
-          <Answer selectedNumbers={selectedNumbers} unselectNumber={this.unselectNumber} />
+
+    if (this.props.menuStatus === 'PLAYING') {
+      return (
+        <div className='container'>
+          <div className='row'>
+            <Stars numberOfStars={numberOfStars} />
+            <Button selectedNumbers={selectedNumbers} 
+                    redraws={redraws}
+                    checkAnswer={this.checkAnswer}
+                    acceptAnswer={this.acceptAnswer}
+                    redraw={this.redraw}
+                    answerIsCorrect={answerIsCorrect} />
+            <Answer selectedNumbers={selectedNumbers} unselectNumber={this.unselectNumber} />
+          </div>
+          <br />
+          {doneStatus ?
+            <DoneFrame resetGame={this.resetGame} doneStatus={doneStatus}/> :
+            <Numbers selectedNumbers={selectedNumbers} 
+                  selectNumber={this.selectNumber}
+                  usedNumbers={usedNumbers}/>
+          }
+          <br/>
+          <br/>
+          <div className="centered">
+            <h1 className="stopwatch-timer">{formattedSeconds(this.state.secondsElapsed)}</h1>
+          </div>
         </div>
-        <br />
-        {doneStatus ?
-          <DoneFrame resetGame={this.resetGame} doneStatus={doneStatus}/> :
-          <Numbers selectedNumbers={selectedNumbers} 
-                 selectNumber={this.selectNumber}
-                 usedNumbers={usedNumbers}/>
-        }
-        <br/>
-        <br/>
-        <div className="stopwatch">
-          <h1 className="stopwatch-timer">{formattedSeconds(this.state.secondsElapsed)}</h1>
-        </div>
-        <GameRules />
-      </div>
-    )
+      )
+    } else {
+      return (
+        <div />
+      )
+    }
   }
 }
 
 export default Game
-
-const Btn = (props) =>
-<button type="button" {...props} className={"btn " + props.className} />
