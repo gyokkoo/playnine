@@ -4,6 +4,7 @@ import Button from './Button'
 import Answer from './Answer'
 import Numbers from './Numbers'
 import DoneFrame from './DoneFrame'
+import ReturnMenu from './ReturnMenu'
 import _ from 'lodash'
 
 let possibleCombinationSum = function(arr, n) {
@@ -20,7 +21,7 @@ let possibleCombinationSum = function(arr, n) {
   var listSize = arr.length, combinationsCount = (1 << listSize)
   for (var i = 1; i < combinationsCount ; i++ ) {
     var combinationSum = 0
-    for (var j=0 ; j < listSize ; j++) {
+    for (var j = 0 ; j < listSize ; j++) {
       if (i & (1 << j)) { 
         combinationSum += arr[j]
       }
@@ -150,38 +151,33 @@ class Game extends React.Component {
   render () {
     const { selectedNumbers, numberOfStars, answerIsCorrect, usedNumbers, redraws, doneStatus } = this.state
 
-    if (this.props.menuStatus === 'PLAYING') {
-      return (
-        <div className='container'>
-          <div className='row'>
-            <Stars numberOfStars={numberOfStars} />
-            <Button selectedNumbers={selectedNumbers} 
-                    redraws={redraws}
-                    checkAnswer={this.checkAnswer}
-                    acceptAnswer={this.acceptAnswer}
-                    redraw={this.redraw}
-                    answerIsCorrect={answerIsCorrect} />
-            <Answer selectedNumbers={selectedNumbers} unselectNumber={this.unselectNumber} />
-          </div>
-          <br />
-          {doneStatus ?
-            <DoneFrame resetGame={this.resetGame} doneStatus={doneStatus}/> :
-            <Numbers selectedNumbers={selectedNumbers} 
-                  selectNumber={this.selectNumber}
-                  usedNumbers={usedNumbers}/>
-          }
-          <br/>
-          <br/>
-          <div className="centered">
-            <h1 className="stopwatch-timer">{formattedSeconds(this.state.secondsElapsed)}</h1>
-          </div>
+    return (
+      <div className='container'>
+        <div className='row'>
+          <Stars numberOfStars={numberOfStars} />
+          <Button selectedNumbers={selectedNumbers} 
+                  redraws={redraws}
+                  checkAnswer={this.checkAnswer}
+                  acceptAnswer={this.acceptAnswer}
+                  redraw={this.redraw}
+                  answerIsCorrect={answerIsCorrect} />
+          <Answer selectedNumbers={selectedNumbers} unselectNumber={this.unselectNumber} />
         </div>
-      )
-    } else {
-      return (
-        <div />
-      )
-    }
+        <br />
+        {doneStatus ?
+          <DoneFrame resetGame={this.resetGame} doneStatus={doneStatus}/> :
+          <Numbers selectedNumbers={selectedNumbers} 
+                selectNumber={this.selectNumber}
+                usedNumbers={usedNumbers}/>
+        }
+        <br/>
+        <br/>
+        <div className="centered">
+          <h1 className="stopwatch-timer">{formattedSeconds(this.state.secondsElapsed)}</h1>
+        </div>
+        <ReturnMenu />
+      </div>
+    )
   }
 }
 

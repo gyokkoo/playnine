@@ -1,48 +1,22 @@
 import React, { Component } from 'react'
 
-import Game from './Game'
-import MenuButtons from './MenuButtons'
-import GameRules from './GameRules'
-import Ranking from './Ranking'
+import { Link } from 'react-router-dom'
 
 class Menu extends Component {
-  constructor (props) {
-    super(props)
-
-    this.state = {
-      menuStatus: 'MAIN_MENU'
-    }
-  }
-
-  onPlayClick () {
-    this.setState({
-      menuStatus: 'PLAYING'
-    })
-  }
-
-  onRankingClick () {
-    this.setState({
-      menuStatus: 'RANKING'
-    })
-  }
-
-  onRulesClick () {
-    this.setState({
-      menuStatus: 'RULES'
-    })
-  }
-
   render () {
     return (
       <div className='centered'>
-        <MenuButtons
-          menuStatus={this.state.menuStatus}
-          onPlayClick={this.onPlayClick.bind(this)}
-          onRankingClick={this.onRankingClick.bind(this)}
-          onRulesClick={this.onRulesClick.bind(this)} />
-        <Game menuStatus={this.state.menuStatus} />
-        <Ranking menuStatus={this.state.menuStatus} />
-        <GameRules menuStatus={this.state.menuStatus} />
+        <Link to='/game'>
+          <button className='btn btn-primary'>Play</button>
+        </Link>
+        <br />
+        <Link to='/ranking'>
+          <button className='btn btn-primary'>Ranking</button>
+        </Link>
+        <br />
+        <Link to='/rules'>
+          <button className='btn btn-primary'>Rules</button>
+        </Link>
       </div>
     )
   }
