@@ -8,7 +8,6 @@ import Menu from './components/Menu'
 class App extends Component {
   render () {
     const currentPath = window.location.pathname
-    console.log(currentPath)
     return (
       <div className='container'>
         <Header />

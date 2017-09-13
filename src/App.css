@@ -2,6 +2,20 @@
   text-align: center;
 }
 
+table { 
+  margin: 0 auto;
+}
+
+table th {
+  background: #DDD;
+  padding: 10px;
+}
+
+table td {
+  padding: 5px 10px;
+  background: #EEE;
+}
+
 .stopwatch-timer {
   font-size: 40px;
   font-weight: 100;
