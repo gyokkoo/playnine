@@ -1,9 +1,10 @@
 import React from 'react'
-import Stars from './Stars'
+import Emojis from './Emojis'
 import Button from './Button'
 import Answer from './Answer'
 import Numbers from './Numbers'
-import DoneFrame from './DoneFrame'
+import WinFrame from './DoneFrame'
+import GameOverFrame from './GameOverFrame'
 import ReturnMenu from './ReturnMenu'
 import _ from 'lodash'
 
@@ -34,21 +35,21 @@ let possibleCombinationSum = function(arr, n) {
 }
 
 const formattedSeconds = (sec) =>
-Math.floor(sec / 60) +
-':' +
-('0' + sec % 60).slice(-2)
+  Math.floor(sec / 60) +
+  ':' +
+  ('0' + sec % 60).slice(-2)
 
 class Game extends React.Component {
   static getRandomNumber = () => 1 + Math.floor(Math.random() * 9)
-  // static getRandomNumber = () => 8
 
   static getInitialState = () => ({
       selectedNumbers: [],
-      numberOfStars: Game.getRandomNumber(),
+      numberOfEmojis: Game.getRandomNumber(),
       usedNumbers: [],      
       // usedNumbers: [1, 2, 3, 4, 5, 6, 7, 9],
       answerIsCorrect: null,
       redraws: 5,
+      gameEnd: false,
       gameWon: false,
       secondsElapsed: 0,
       lastClearedIncrementer: null
@@ -97,7 +98,7 @@ class Game extends React.Component {
 
   checkAnswer = () => {
     this.setState(prevState => ({
-      answerIsCorrect: prevState.numberOfStars === prevState.selectedNumbers.reduce((acc, n) => acc + n, 0)
+      answerIsCorrect: prevState.numberOfEmojis === prevState.selectedNumbers.reduce((acc, n) => acc + n, 0)
     }))
   }
 
@@ -106,7 +107,7 @@ class Game extends React.Component {
       usedNumbers: prevState.usedNumbers.concat(prevState.selectedNumbers),
       selectedNumbers: [],
       answerIsCorrect: null,
-      numberOfStars: Game.getRandomNumber()
+      numberOfEmojis: Game.getRandomNumber()
     }), this.updateStatus)
   }
 
@@ -114,6 +115,7 @@ class Game extends React.Component {
     this.setState(Game.getInitialState())
     this.incrementer = setInterval(() => {
       this.setState({
+        gameWon: false,
         secondsElapsed: this.state.secondsElapsed + 1
       })
     }, 1000)
@@ -121,47 +123,45 @@ class Game extends React.Component {
 
   redraw = () => {
     if (this.state.redraws === 0) {
+      this.setState({
+        gameEnd: true
+      })
       return
     }
     this.setState(prevState => ({
-      numberOfStars: Game.getRandomNumber(),
+      numberOfEmojis: Game.getRandomNumber(),
       answerIsCorrect: null,
       selectedNumbers: [],
       redraws: prevState.redraws - 1
     }), this.updateStatus)
   }
 
-  possibleSolutions = ({numberOfStars, usedNumbers}) => {
+  possibleSolutions = ({numberOfEmojis, usedNumbers}) => {
     const possibleNumbers = _.range(1, 10).filter(number => usedNumbers.indexOf(number) === -1)
 
-    return possibleCombinationSum(possibleNumbers, numberOfStars)
+    return possibleCombinationSum(possibleNumbers, numberOfEmojis)
   }
 
   updateStatus = () => {
     this.setState(prevState => {
       if (prevState.usedNumbers.length === 9) {
         this.stopTimer()
-        return { gameWon: true }
+        return {gameEnd: true, gameWon: true}
       }
       if (prevState.redraws === 0 && !this.possibleSolutions(prevState)) {
         this.stopTimer()
-        return { gameWon: false }
+        return {gameEnd: true, gameWon: false}
       }
     })
   }
 
-  submitScore () {
-    console.log(this.state.redraws)
-    console.log(this.state.secondsElapsed)
-  }
-
   render () {
-    const { selectedNumbers, numberOfStars, answerIsCorrect, usedNumbers, redraws, gameWon } = this.state
+    const { selectedNumbers, numberOfEmojis, answerIsCorrect, usedNumbers, redraws, gameWon, gameEnd } = this.state
 
     return (
       <div className='container'>
         <div className='row'>
-          <Stars numberOfStars={numberOfStars} />
+          <Emojis numberOfEmojis={numberOfEmojis} />
           <Button selectedNumbers={selectedNumbers} 
                   redraws={redraws}
                   checkAnswer={this.checkAnswer}
@@ -171,20 +171,27 @@ class Game extends React.Component {
           <Answer selectedNumbers={selectedNumbers} unselectNumber={this.unselectNumber} />
         </div>
         <br />
-        {gameWon ?
-          <DoneFrame 
-            resetGame={this.resetGame} 
-            gameWon={this.state.gameWon}
-            redraws={this.state.redraws}
-            seconds={this.state.secondsElapsed}/> :
-          <Numbers selectedNumbers={selectedNumbers} 
+          {gameEnd ?
+            gameWon ?
+              <WinFrame 
+                resetGame={this.resetGame} 
+                redraws={this.state.redraws}
+                seconds={this.state.secondsElapsed} /> :
+              <GameOverFrame 
+                seconds={this.state.secondsElapsed}
+                resetGame={this.resetGame} />
+            :
+            <Numbers selectedNumbers={selectedNumbers} 
                 selectNumber={this.selectNumber}
                 usedNumbers={usedNumbers}/>
-        }
+          }
         <br/>
         <br/>
         <div className="centered">
-          <h1 className="stopwatch-timer">{formattedSeconds(this.state.secondsElapsed)}</h1>
+          {gameEnd ? 
+            null :
+            <h2 className="stopwatch-timer">{formattedSeconds(this.state.secondsElapsed)}</h2>
+          }
         </div>
         <ReturnMenu />
       </div>

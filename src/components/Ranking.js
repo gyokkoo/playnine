@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import KinveyRequester from '../KinveyRequester'
 import ReturnMenu from './ReturnMenu'
 
-class Ranking extends Component  {
+class Ranking extends Component {
   constructor (props) {
     super(props)
 
@@ -13,7 +13,6 @@ class Ranking extends Component  {
 
   componentWillMount () {
     KinveyRequester.getScores().then(getScoresSuccess.bind(this))
-
     function getScoresSuccess (data) {
       this.setState({
         scores: data

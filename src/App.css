@@ -68,6 +68,26 @@ table td {
   box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }
 
+#infoBox, #errorBox, #loadingBox {
+  width: 80%;
+  margin: 10px auto;
+  color: white;
+  text-align: center;
+  padding: 5px;
+  border-radius: 3px;
+  display: none;
+  cursor: pointer;
+}
+
+#loadingBox {
+  background: #7CB3E9;
+}
+#infoBox {
+  background: #393;
+}
+#errorBox {
+  background: #F50;
+}
 /*!
  * Bootstrap v4.0.0-alpha.6 (https://getbootstrap.com)
  * Copyright 2011-2017 The Bootstrap Authors
