@@ -8,6 +8,7 @@ const GameOverFrame = (props) => {
       <div>
         <h2>{`Game Over! Your times is ${props.seconds} seconds!`}</h2>
         <img style={{width: 250}} src={sadFace} alt='Sad Face' />
+        <br />
         <button className='btn btn-secondary' onClick={props.resetGame}>Play Again</button>
       </div>
     </div>

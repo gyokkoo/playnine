@@ -11,7 +11,9 @@ const AboutPage = (props) => {
       <h6>gyokan.nezhdetov@gmail.com</h6>
       <hr />
       <div>
-        App source code <a href='https://github.com/Nezhdetov/playnine' target='_blank' >view here</a>
+        App source code <a href='https://github.com/Nezhdetov/playnine' target='_blank' rel='noreferrer noopener'>
+          view here
+        </a>
       </div>
       <ReturnMenu />
     </div>
