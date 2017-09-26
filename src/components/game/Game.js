@@ -5,7 +5,7 @@ import Answer from './Answer'
 import Numbers from './Numbers'
 import WinFrame from './DoneFrame'
 import GameOverFrame from './GameOverFrame'
-import ReturnMenu from './ReturnMenu'
+import ReturnMenu from '../menu/ReturnMenu'
 import _ from 'lodash'
 
 let possibleCombinationSum = function(arr, n) {
@@ -193,7 +193,7 @@ class Game extends React.Component {
             <h2 className="stopwatch-timer">{formattedSeconds(this.state.secondsElapsed)}</h2>
           }
         </div>
-        <ReturnMenu />
+        <ReturnMenu showHowToPlay={true} />
       </div>
     )
   }

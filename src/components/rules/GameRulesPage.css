@@ -1,0 +1,6 @@
+@media (max-width: 700px)
+{
+  .rules-page img {
+     display: none;
+  }
+}

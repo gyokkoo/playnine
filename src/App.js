@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import './App.css'
 import $ from 'jquery'
-import Header from './components/Header'
+import Header from './components/header/Header'
 import Routes from './routes'
-import Menu from './components/Menu'
+import Menu from './components/menu/Menu'
 
 class App extends Component {
   componentDidMount () {
@@ -42,9 +42,10 @@ class App extends Component {
       <div className='container'>
         <Header />
         {
-          currentPath === '/game' ||
-          currentPath === '/ranking' ||
-          currentPath === '/rules'
+          currentPath === '/playnine/game' ||
+          currentPath === '/playnine/ranking' ||
+          currentPath === '/playnine/rules' ||
+          currentPath === '/playnine/about'
           ? null : <Menu />
         }
         <Routes />

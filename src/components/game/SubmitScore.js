@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Redirect, Switch } from 'react-router-dom'
-import KinveyRequester from '../KinveyRequester'
+
+import KinveyRequester from '../../utilities/KinveyRequester'
 
 class SubmitScore extends Component {
   constructor (props) {
@@ -23,6 +24,7 @@ class SubmitScore extends Component {
     KinveyRequester
       .submitScore(this.state.value, this.props.lives, this.props.time)
       .then(submitScoreSuccess.bind(this))
+
     function submitScoreSuccess () {
       this.setState({
         isSubmitted: true
@@ -34,7 +36,7 @@ class SubmitScore extends Component {
     return (
       <div className='text-center'>
         <form onSubmit={this.handleSubmit}>
-          <label>
+          <label for=''>
             Your Name:
             <input type='text' onChange={this.handleChange} />
           </label>
@@ -42,9 +44,10 @@ class SubmitScore extends Component {
         </form>
 
         {
-          this.state.isSubmitted ? (<Switch>
-            <Redirect to='/ranking' />
-          </Switch>)
+          this.state.isSubmitted ? (
+            <Switch>
+              <Redirect to='/playnine/ranking' />
+            </Switch>)
           : null
         }
       </div>

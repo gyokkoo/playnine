@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import KinveyRequester from '../KinveyRequester'
-import ReturnMenu from './ReturnMenu'
+import KinveyRequester from '../../utilities/KinveyRequester'
+import ReturnMenu from '../menu/ReturnMenu'
 
 class Ranking extends Component {
   constructor (props) {

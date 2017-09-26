@@ -6,16 +6,20 @@ class Menu extends Component {
   render () {
     return (
       <div className='centered'>
-        <Link to='/game'>
+        <Link to='/playnine/game'>
           <button className='btn btn-primary'>Play</button>
         </Link>
         <br />
-        <Link to='/ranking'>
+        <Link to='/playnine/ranking'>
           <button className='btn btn-primary'>Ranking</button>
         </Link>
         <br />
-        <Link to='/rules'>
+        <Link to='/playnine/rules'>
           <button className='btn btn-primary'>Rules</button>
+        </Link>
+        <br />
+        <Link to='/playnine/about'>
+          <button className='btn btn-primary'>About</button>
         </Link>
       </div>
     )
